@@ -1,25 +1,7 @@
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 
-function Main() {
-  function handleEditProfileClick() {
-    document
-      .querySelector(".popup_type_edit-profile")
-      .classList.add("popup_opened");
-  }
-
-  function handleEditAvatarClick() {
-    document
-      .querySelector(".popup_type_update-avatar")
-      .classList.add("popup_opened");
-  }
-
-  function handleAddPlaceClick() {
-    document
-      .querySelector(".popup_type_add-place")
-      .classList.add("popup_opened");
-  }
-
+function Main(props) {
   return (
     <main className="main sizer">
       <section className="profile profile_spaced sizer">
@@ -31,7 +13,7 @@ function Main() {
           />
           <button
             className="profile__edit-avatar-button"
-            onClick={handleEditAvatarClick}
+            onClick={props.onEditAvatar}
           >
             <img
               src="./images/edit-avatar-icon.svg"
@@ -46,12 +28,12 @@ function Main() {
           <p className="profile__bio">Исследователь интернета</p>
           <button
             className="profile__edit-button"
-            onClick={handleEditProfileClick}
+            onClick={props.onEditProfile}
           ></button>
         </div>
         <button
           className="profile__add-button"
-          onClick={handleAddPlaceClick}
+          onClick={props.onAddPlace}
         ></button>
       </section>
 
@@ -69,8 +51,16 @@ function Main() {
         </template>
       </ul>
 
-      <PopupWithForm name="editProfile" title="Редактировать профиль">
-        <button type="button" className="popup__close-icon"></button>
+      <PopupWithForm
+        name="editProfile"
+        title="Редактировать профиль"
+        isOpened={props.isEditProfilePopupOpen}
+      >
+        <button
+          type="button"
+          className="popup__close-icon"
+          onClick={props.onClose}
+        ></button>
         <h3 className="popup__title">Редактировать профиль</h3>
         <input
           type="text"
@@ -99,8 +89,16 @@ function Main() {
         </button>
       </PopupWithForm>
 
-      <PopupWithForm name="addPlace" title="Новое место">
-        <button type="button" className="popup__close-icon"></button>
+      <PopupWithForm
+        name="addPlace"
+        title="Новое место"
+        isOpened={props.isAddPlacePopupOpen}
+      >
+        <button
+          type="button"
+          className="popup__close-icon"
+          onClick={props.onClose}
+        ></button>
         <h3 className="popup__title">Новое место</h3>
         <input
           type="text"
@@ -127,7 +125,11 @@ function Main() {
         </button>
       </PopupWithForm>
 
-      <PopupWithForm name="updateAvatar" title="Обновить аватар">
+      <PopupWithForm
+        name="updateAvatar"
+        title="Обновить аватар"
+        isOpened={props.isEditAvatarPopupOpen}
+      >
         <h3 className="popup__title">Обновить аватар</h3>
         <input
           type="url"
@@ -140,14 +142,22 @@ function Main() {
           maxLength="200"
         />
         <span className="popup__input-error form-avatar-error"></span>
-        <button type="button" className="popup__close-icon"></button>
+        <button
+          type="button"
+          className="popup__close-icon"
+          onClick={props.onClose}
+        ></button>
         <button type="submit" className="popup__submit-button">
           Сохранить
         </button>
       </PopupWithForm>
 
       <PopupWithForm name="confirmDelete" title="Вы уверены?">
-        <button type="button" className="popup__close-icon"></button>
+        <button
+          type="button"
+          className="popup__close-icon"
+          onClick={props.onClose}
+        ></button>
         <h3 className="popup__title">Вы уверены?</h3>
         <button type="submit" className="popup__submit-button">
           Да
@@ -255,7 +265,7 @@ function Main() {
         </form>
       </section> */}
 
-      <ImagePopup/>
+      <ImagePopup />
     </main>
   );
 }

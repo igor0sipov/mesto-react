@@ -1,4 +1,4 @@
-function ImagePopup(props) {
+function ImagePopup() {
   return (
     <section className="popup fullsize-picture">
       <figure className="popup__container">
