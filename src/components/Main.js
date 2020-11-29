@@ -3,6 +3,7 @@ import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
 import Card from "./Card";
 import api from "./utils/Api";
+import editAvatarIconPath from "../images/edit-avatar-icon.svg";
 
 function Main(props) {
   const [userName, setUserName] = React.useState("User Name");
@@ -18,8 +19,7 @@ function Main(props) {
       setUserAvatar(info.avatar);
     });
     api.getCards().then((cards) => {
-      console.log(cards);
-      const initialCards = cards.map((card, i) => {
+      const initialCards = cards.map((card) => {
         return (
           <Card key={card._id} card={card} onCardClick={props.onCardClick} />
         );
@@ -37,7 +37,7 @@ function Main(props) {
             onClick={props.onEditAvatar}
           >
             <img
-              src="../images/edit-avatar-icon.svg"
+              src={editAvatarIconPath}
               alt=""
               className="profile__edit-avatar-icon"
             />
