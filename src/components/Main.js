@@ -1,15 +1,15 @@
 function Main() {
 
   function handleEditProfileClick() {
-    document.querySelector('.edit-profile').classList.add('popup_opened');
+    document.querySelector('.popup_type_edit-profile').classList.add('popup_opened');
   }
 
   function handleEditAvatarClick() {
-    document.querySelector('.update-avatar').classList.add('popup_opened');
+    document.querySelector('.popup_type_update-avatar').classList.add('popup_opened');
   }
 
   function handleAddPlaceClick() {
-    document.querySelector('.add-place').classList.add('popup_opened');
+    document.querySelector('.popup_type_add-place').classList.add('popup_opened');
   }
 
   return (
@@ -52,7 +52,7 @@ function Main() {
         </template>
       </ul>
 
-      <section className="popup edit-profile">
+      <section className="popup popup_type_edit-profile">
         <form
           className="popup__container form"
           name="editProfileForm"
@@ -88,7 +88,7 @@ function Main() {
         </form>
       </section>
 
-      <section className="popup add-place">
+      <section className="popup popup_type_add-place">
         <form className="popup__container form" name="addPlaceForm" noValidate>
           <button type="button" className="popup__close-icon"></button>
           <h3 className="popup__title">Новое место</h3>
@@ -118,7 +118,7 @@ function Main() {
         </form>
       </section>
 
-      <section className="popup confirm-delete">
+      <section className="popup popup_type_confirm-delete">
         <form
           className="popup__container form"
           name="confirmCardDelete"
@@ -132,7 +132,7 @@ function Main() {
         </form>
       </section>
 
-      <section className="popup update-avatar">
+      <section className="popup popup_type_update-avatar">
         <form className="popup__container form" name="updateAvatar" noValidate>
           <h3 className="popup__title">Обновить аватар</h3>
           <input
