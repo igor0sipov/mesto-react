@@ -18,7 +18,7 @@ function Main(props) {
       setUserAvatar(info.avatar);
     });
     api.getCards().then((cards) => {
-      const newCards = cards.map((card) => {
+      const initialCards = cards.map((card) => {
         return (
           <Card
             cardName={card.name}
@@ -28,7 +28,7 @@ function Main(props) {
           />
         );
       });
-      setCards(newCards);
+      setCards(initialCards);
     });
   }, []);
   return (
