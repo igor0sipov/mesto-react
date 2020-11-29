@@ -1,22 +1,47 @@
+import React from "react";
 import ImagePopup from "./ImagePopup";
 import PopupWithForm from "./PopupWithForm";
+import Card from "./Card";
+import api from "./utils/Api";
 
 function Main(props) {
+  const [userName, setUserName] = React.useState("User Name");
+  const [userDescription, setUserDescription] = React.useState("User Bio");
+  const [userAvatar, setUserAvatar] = React.useState(
+    "http://cdn.onlinewebfonts.com/svg/img_258083.png"
+  );
+  const [cards, setCards] = React.useState([]);
+  React.useEffect(() => {
+    api.getUserInfo().then((info) => {
+      setUserName(info.name);
+      setUserDescription(info.about);
+      setUserAvatar(info.avatar);
+    });
+    api.getCards().then((cards) => {
+      const newCards = cards.map((card) => {
+        return (
+          <Card
+            cardName={card.name}
+            link={card.link}
+            likes={card.likes.length}
+            key={card._id}
+          />
+        );
+      });
+      setCards(newCards);
+    });
+  }, []);
   return (
     <main className="main sizer">
       <section className="profile profile_spaced sizer">
         <div className="profile__avatar-wrapper">
-          <img
-            src="./images/user.png"
-            alt="User Avatar"
-            className="profile__avatar"
-          />
+          <img src={userAvatar} alt="User Avatar" className="profile__avatar" />
           <button
             className="profile__edit-avatar-button"
             onClick={props.onEditAvatar}
           >
             <img
-              src="./images/edit-avatar-icon.svg"
+              src="../images/edit-avatar-icon.svg"
               alt=""
               className="profile__edit-avatar-icon"
             />
@@ -24,8 +49,8 @@ function Main(props) {
         </div>
 
         <div className="profile__info">
-          <h1 className="profile__name">Славик Сычёв</h1>
-          <p className="profile__bio">Исследователь интернета</p>
+          <h1 className="profile__name">{userName}</h1>
+          <p className="profile__bio">{userDescription}</p>
           <button
             className="profile__edit-button"
             onClick={props.onEditProfile}
@@ -37,19 +62,7 @@ function Main(props) {
         ></button>
       </section>
 
-      <ul className="elements">
-        <template className="card-template">
-          <li className="element">
-            <button className="element__delete-button"></button>
-            <img src="#" alt="#" className="element__picture" />
-            <h2 className="element__name">someName</h2>
-            <figure className="element__like">
-              <button className="element__like-button"></button>
-              <figcaption className="element__like-counter">0</figcaption>
-            </figure>
-          </li>
-        </template>
-      </ul>
+      <ul className="elements">{cards}</ul>
 
       <PopupWithForm
         name="editProfile"
@@ -163,108 +176,6 @@ function Main(props) {
           Да
         </button>
       </PopupWithForm>
-
-      {/* <section className="popup popup_type_edit-profile">
-        <form
-          className="popup__container form"
-          name="editProfileForm"
-          noValidate
-        >
-          <button type="button" className="popup__close-icon"></button>
-          <h3 className="popup__title">Редактировать профиль</h3>
-          <input
-            type="text"
-            className="popup__input"
-            id="form-name"
-            name="name"
-            placeholder="Имя"
-            required
-            minLength="2"
-            maxLength="40"
-          />
-          <span className="popup__input-error form-name-error"></span>
-          <input
-            type="text"
-            className="popup__input"
-            id="form-bio"
-            name="bio"
-            placeholder="О себе"
-            required
-            minLength="2"
-            maxLength="200"
-          />
-          <span className="popup__input-error form-bio-error"></span>
-          <button type="submit" className="popup__submit-button">
-            Сохранить
-          </button>
-        </form>
-      </section>
-
-      <section className="popup popup_type_add-place">
-        <form className="popup__container form" name="addPlaceForm" noValidate>
-          <button type="button" className="popup__close-icon"></button>
-          <h3 className="popup__title">Новое место</h3>
-          <input
-            type="text"
-            className="popup__input"
-            id="form-title"
-            name="title"
-            placeholder="Название"
-            required
-            minLength="2"
-            maxLength="30"
-          />
-          <span className="popup__input-error form-title-error"></span>
-          <input
-            type="url"
-            className="popup__input"
-            id="form-url"
-            name="url"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="popup__input-error form-url-error"></span>
-          <button type="submit" className="popup__submit-button">
-            Сохранить
-          </button>
-        </form>
-      </section>
-
-      <section className="popup popup_type_confirm-delete">
-        <form
-          className="popup__container form"
-          name="confirmCardDelete"
-          noValidate
-        >
-          <button type="button" className="popup__close-icon"></button>
-          <h3 className="popup__title">Вы уверены?</h3>
-          <button type="submit" className="popup__submit-button">
-            Да
-          </button>
-        </form>
-      </section>
-
-      <section className="popup popup_type_update-avatar">
-        <form className="popup__container form" name="updateAvatar" noValidate>
-          <h3 className="popup__title">Обновить аватар</h3>
-          <input
-            type="url"
-            className="popup__input"
-            id="form-avatar"
-            name="avatar"
-            placeholder="Ссылка на аватар"
-            required
-            minLength="2"
-            maxLength="200"
-          />
-          <span className="popup__input-error form-avatar-error"></span>
-          <button type="button" className="popup__close-icon"></button>
-          <button type="submit" className="popup__submit-button">
-            Сохранить
-          </button>
-        </form>
-      </section> */}
-
       <ImagePopup />
     </main>
   );
