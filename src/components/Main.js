@@ -18,14 +18,10 @@ function Main(props) {
       setUserAvatar(info.avatar);
     });
     api.getCards().then((cards) => {
-      const initialCards = cards.map((card) => {
+      console.log(cards);
+      const initialCards = cards.map((card, i) => {
         return (
-          <Card
-            cardName={card.name}
-            link={card.link}
-            likes={card.likes.length}
-            key={card._id}
-          />
+          <Card key={card._id} card={card} onCardClick={props.onCardClick} />
         );
       });
       setCards(initialCards);
@@ -176,7 +172,7 @@ function Main(props) {
           Да
         </button>
       </PopupWithForm>
-      <ImagePopup />
+      <ImagePopup card={props.selectedCard} isOpened={props.isImagePopupOpened} onClose={props.onClose} />
     </main>
   );
 }
