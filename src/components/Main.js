@@ -21,7 +21,12 @@ function Main(props) {
     api.getCards().then((cards) => {
       const initialCards = cards.map((card) => {
         return (
-          <Card key={card._id} card={card} onCardClick={props.onCardClick} />
+          <Card
+            key={card._id}
+            card={card}
+            onCardClick={props.onCardClick}
+            onDeleteButton={props.onDeleteConfirm}
+          />
         );
       });
       setCards(initialCards);
@@ -161,7 +166,11 @@ function Main(props) {
         </button>
       </PopupWithForm>
 
-      <PopupWithForm name="confirmDelete" title="Вы уверены?">
+      <PopupWithForm
+        name="confirmDelete"
+        title="Вы уверены?"
+        isOpened={props.isDeletePopupOpened}
+      >
         <button
           type="button"
           className="popup__close-icon"
@@ -172,7 +181,11 @@ function Main(props) {
           Да
         </button>
       </PopupWithForm>
-      <ImagePopup card={props.selectedCard} isOpened={props.isImagePopupOpened} onClose={props.onClose} />
+      <ImagePopup
+        card={props.selectedCard}
+        isOpened={props.isImagePopupOpened}
+        onClose={props.onClose}
+      />
     </main>
   );
 }
