@@ -2,6 +2,8 @@ import React from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import ImagePopup from "./ImagePopup";
+import PopupWithForm from "./PopupWithForm";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(
@@ -49,17 +51,102 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
         onDeleteConfirm={handleDeleteButtonClick}
-        isEditProfilePopupOpen={isEditProfilePopupOpen}
-        isAddPlacePopupOpen={isAddPlacePopupOpen}
-        isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-        isImagePopupOpened={isImagePopupOpened}
-        isDeletePopupOpened={isDeletePopupOpened}
-        onClose={closeAllPopups}
         onCardClick={handleCardClick}
-        selectedCard={selectedCard}
-        
       />
       <Footer />
+
+      <PopupWithForm
+        name="editProfile"
+        title="Редактировать профиль"
+        isOpened={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
+        buttonText="Сохранить"
+      >
+        <input
+          type="text"
+          className="popup__input"
+          id="form-name"
+          name="name"
+          placeholder="Имя"
+          required
+          minLength="2"
+          maxLength="40"
+        />
+        <span className="popup__input-error form-name-error"></span>
+        <input
+          type="text"
+          className="popup__input"
+          id="form-bio"
+          name="bio"
+          placeholder="О себе"
+          required
+          minLength="2"
+          maxLength="200"
+        />
+        <span className="popup__input-error form-bio-error"></span>
+      </PopupWithForm>
+
+      <PopupWithForm
+        name="addPlace"
+        title="Новое место"
+        isOpened={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
+        buttonText="Сохранить"
+      >
+        <input
+          type="text"
+          className="popup__input"
+          id="form-title"
+          name="title"
+          placeholder="Название"
+          required
+          minLength="2"
+          maxLength="30"
+        />
+        <span className="popup__input-error form-title-error"></span>
+        <input
+          type="url"
+          className="popup__input"
+          id="form-url"
+          name="url"
+          placeholder="Ссылка на картинку"
+          required
+        />
+        <span className="popup__input-error form-url-error"></span>
+      </PopupWithForm>
+
+      <PopupWithForm
+        name="updateAvatar"
+        title="Обновить аватар"
+        isOpened={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
+        buttonText="Сохранить"
+      >
+        <input
+          type="url"
+          className="popup__input"
+          id="form-avatar"
+          name="avatar"
+          placeholder="Ссылка на аватар"
+          required
+          minLength="2"
+          maxLength="200"
+        />
+        <span className="popup__input-error form-avatar-error"></span>
+      </PopupWithForm>
+
+      <PopupWithForm
+        name="confirmDelete"
+        title="Вы уверены?"
+        isOpened={isDeletePopupOpened}
+        onClose={closeAllPopups}
+        buttonText="Да"
+      ></PopupWithForm>
+      <ImagePopup
+        card={selectedCard}
+        isOpened={isImagePopupOpened}
+        onClose={closeAllPopups}
+      />
     </div>
   );
 }
