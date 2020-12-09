@@ -1,5 +1,10 @@
 function Card(props) {
   const isOwn = props.card.owner._id === props.currentUser._id;
+  const isLiked = props.card.likes.some(like => like._id === props.currentUser._id);
+  function handleLikeClick() {
+    props.handleCardLike(props.card, isLiked);
+  }
+
   function handleClick() {
     props.onCardClick(props.card);
   }
@@ -20,7 +25,7 @@ function Card(props) {
       />
       <h2 className="element__name">{props.card.name}</h2>
       <figure className="element__like">
-        <button className="element__like-button"></button>
+        <button className={`element__like-button ${isLiked ? `element__like-button_active` : ''}`} onClick={handleLikeClick}></button>
         <figcaption className="element__like-counter">
           {props.card.likes.length}
         </figcaption>

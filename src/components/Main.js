@@ -12,6 +12,14 @@ function Main(props) {
       setCards(cards);
     });
   }, []);
+
+  function handleCardLike(card, isLiked) {
+    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+      const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
+      setCards(newCards);
+    });
+  }
+
   return (
     <main className="main sizer">
       <section className="profile profile_spaced sizer">
@@ -54,8 +62,10 @@ function Main(props) {
               key={card._id}
               card={card}
               onCardClick={props.onCardClick}
-              onDeleteButton={props.onDeleteConfirm}
+              onDeleteButton={props.onDeleteButton}
+              onLikeButton={props.onLikeButtonClick}
               currentUser={user}
+              handleCardLike={handleCardLike}
             />
           );
         })}

@@ -1,4 +1,4 @@
-import {apiConfig} from './constants'
+import { apiConfig } from "./constants";
 
 class Api {
   constructor(config) {
@@ -139,6 +139,14 @@ class Api {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return this.removeLike(id);
+    } else {
+      return this.like(id);
+    }
   }
 
   updateAvatar(avatar) {
