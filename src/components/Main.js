@@ -20,6 +20,17 @@ function Main(props) {
     });
   }
 
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then((result) => {
+      if (result.ok) {
+        const newCards = cards.filter((c) => c._id !== card._id);
+        setCards(newCards);
+      } else {
+        console.log("Ошибка: ", result.status);
+      }
+    });
+  }
+
   return (
     <main className="main sizer">
       <section className="profile profile_spaced sizer">
@@ -62,10 +73,10 @@ function Main(props) {
               key={card._id}
               card={card}
               onCardClick={props.onCardClick}
-              onDeleteButton={props.onDeleteButton}
+              onCardDelete={handleCardDelete}
               onLikeButton={props.onLikeButtonClick}
               currentUser={user}
-              handleCardLike={handleCardLike}
+              onCardLike={handleCardLike}
             />
           );
         })}

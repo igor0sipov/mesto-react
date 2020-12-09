@@ -19,7 +19,6 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isImagePopupOpened, setImagePopupOpened] = React.useState(false);
-  const [isDeletePopupOpened, setDeletePopupOpened] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
 
   function handleEditProfileClick() {
@@ -39,16 +38,11 @@ function App() {
     setImagePopupOpened(true);
   }
 
-  function handleDeleteButtonClick() {
-    setDeletePopupOpened(true);
-  }
-
   function closeAllPopups() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setImagePopupOpened(false);
-    setDeletePopupOpened(false);
   }
   return (
     <div className="page">
@@ -58,7 +52,6 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
-          onDeleteConfirm={handleDeleteButtonClick}
           onCardClick={handleCardClick}
         />
         <Footer />
@@ -142,14 +135,6 @@ function App() {
           />
           <span className="popup__input-error form-avatar-error"></span>
         </PopupWithForm>
-
-        <PopupWithForm
-          name="confirmDelete"
-          title="Вы уверены?"
-          isOpened={isDeletePopupOpened}
-          onClose={closeAllPopups}
-          buttonText="Да"
-        ></PopupWithForm>
         <ImagePopup
           card={selectedCard}
           isOpened={isImagePopupOpened}
