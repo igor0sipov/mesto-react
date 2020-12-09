@@ -1,22 +1,13 @@
 import React from "react";
-
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
 import api from "../utils/api";
 import editAvatarIconPath from "../images/edit-avatar-icon.svg";
 
 function Main(props) {
-  const [userName, setUserName] = React.useState("User Name");
-  const [userDescription, setUserDescription] = React.useState("User Bio");
-  const [userAvatar, setUserAvatar] = React.useState(
-    "http://cdn.onlinewebfonts.com/svg/img_258083.png"
-  );
+  const user = React.useContext(CurrentUserContext);
   const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
-    api.getUserInfo().then((info) => {
-      setUserName(info.name);
-      setUserDescription(info.about);
-      setUserAvatar(info.avatar);
-    });
     api.getCards().then((cards) => {
       setCards(cards);
     });
@@ -25,7 +16,11 @@ function Main(props) {
     <main className="main sizer">
       <section className="profile profile_spaced sizer">
         <div className="profile__avatar-wrapper">
-          <img src={userAvatar} alt="User Avatar" className="profile__avatar" />
+          <img
+            src={user.avatar}
+            alt="User Avatar"
+            className="profile__avatar"
+          />
           <button
             className="profile__edit-avatar-button"
             onClick={props.onEditAvatar}
@@ -39,8 +34,8 @@ function Main(props) {
         </div>
 
         <div className="profile__info">
-          <h1 className="profile__name">{userName}</h1>
-          <p className="profile__bio">{userDescription}</p>
+          <h1 className="profile__name">{user.name}</h1>
+          <p className="profile__bio">{user.about}</p>
           <button
             className="profile__edit-button"
             onClick={props.onEditProfile}
