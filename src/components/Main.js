@@ -55,6 +55,7 @@ function Main(props) {
               card={card}
               onCardClick={props.onCardClick}
               onDeleteButton={props.onDeleteConfirm}
+              currentUser={user}
             />
           );
         })}

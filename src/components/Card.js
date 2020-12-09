@@ -1,4 +1,5 @@
 function Card(props) {
+  const isOwn = props.card.owner._id === props.currentUser._id;
   function handleClick() {
     props.onCardClick(props.card);
   }
@@ -6,7 +7,9 @@ function Card(props) {
   return (
     <li className="element">
       <button
-        className="element__delete-button"
+        className={`element__delete-button ${
+          isOwn ? "" : `element__delete-button_hidden`
+        }`}
         onClick={props.onDeleteButton}
       ></button>
       <img
