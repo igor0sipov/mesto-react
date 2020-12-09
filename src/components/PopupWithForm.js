@@ -5,7 +5,7 @@ function PopupWithForm(props) {
         props.isOpened && `popup_opened`
       }`}
     >
-      <form className="popup__container form" name={props.name} noValidate>
+      <form className="popup__container form" name={props.name} onSubmit={props.onSubmit} noValidate>
         <button
           type="button"
           className="popup__close-icon"
