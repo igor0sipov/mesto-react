@@ -59,6 +59,13 @@ function App() {
     setImagePopupOpened(false);
   }
 
+  function handleOverlayClick(e) {
+    if(e.target !== e.currentTarget) {
+      return
+    }
+    closeAllPopups();
+  }
+
   function handleUpdateUser({ name, about }) {
     setButtonText({ ...buttonText, editProfile: savingText });
     api.editProfile({ name, about }).then((newProfileInfo) => {
@@ -131,6 +138,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
           buttonText={buttonText.editProfile}
+          onOverlay={handleOverlayClick}
         />
 
         <AddPlacePopup
@@ -138,6 +146,7 @@ function App() {
           onClose={closeAllPopups}
           onSubmit={handleAddCard}
           buttonText={buttonText.addPlace}
+          onOverlay={handleOverlayClick}
         />
 
         <EditAvatarPopup
@@ -145,12 +154,14 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
           buttonText={buttonText.editAvatar}
+          onOverlay={handleOverlayClick}
         />
 
         <ImagePopup
           card={selectedCard}
           isOpened={isImagePopupOpened}
           onClose={closeAllPopups}
+          onOverlay={handleOverlayClick}
         />
       </CurrentUserContext.Provider>
     </div>

@@ -4,6 +4,7 @@ function PopupWithForm(props) {
       className={`popup popup_type_${props.name} ${
         props.isOpened && `popup_opened`
       }`}
+      onClick={props.onOverlay}
     >
       <form className="popup__container form" name={props.name} onSubmit={props.onSubmit} noValidate>
         <button

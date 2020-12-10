@@ -57,6 +57,7 @@ function EditProfilePopup(props) {
       buttonText={props.buttonText}
       onSubmit={handleSubmit}
       isValid={isFormValid}
+      onOverlay={props.onOverlay}
     >
       <input
         type="text"

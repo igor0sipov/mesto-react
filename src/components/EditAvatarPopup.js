@@ -42,6 +42,7 @@ function EditAvatarPopup(props) {
       buttonText={props.buttonText}
       onSubmit={handleClick}
       isValid={isFormValid}
+      onOverlay={props.onOverlay}
     >
       <input
         ref={avatarInputRef}
