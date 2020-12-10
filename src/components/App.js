@@ -16,10 +16,7 @@ function App() {
   const saveText = "Сохранить";
   const savingText = "Сохранение...";
   const yesText = "Да";
-
-  React.useEffect(() => {
-    api.getUserInfo().then((userInfo) => setCurrentUser(userInfo));
-  }, []);
+  const deletionText = "Удаление...";
 
   const [currentUser, setCurrentUser] = React.useState({
     name: "User Name",
@@ -42,6 +39,16 @@ function App() {
     confirmDelete: yesText,
   });
   const [deleteCard, setDeleteCard] = React.useState({});
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getCards()]).then(
+      ([userInfo, cards]) => {
+        setCurrentUser(userInfo);
+        setCards(cards);
+      }
+    );
+  }, []);
 
   //===========================================profile========================================
   function handleUpdateUser({ name, about }) {
@@ -109,13 +116,6 @@ function App() {
     setIsImagePopupOpened(true);
   }
 
-  const [cards, setCards] = React.useState([]);
-  React.useEffect(() => {
-    api.getCards().then((cards) => {
-      setCards(cards);
-    });
-  }, []);
-
   function handleCardLike(card, isLiked) {
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
@@ -129,7 +129,7 @@ function App() {
   }
 
   function handleDelteCard(card) {
-    setButtonText({ ...buttonText, confirmDelete: savingText });
+    setButtonText({ ...buttonText, confirmDelete: deletionText });
     api.deleteCard(card._id).then((result) => {
       if (result.ok) {
         const newCards = cards.filter((c) => c._id !== card._id);
