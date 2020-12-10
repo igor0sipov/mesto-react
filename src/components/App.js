@@ -92,8 +92,8 @@ function App() {
   function handleAddCard({ name, link }) {
     api.addCard({ name, link }).then((newCard) => {
       setCards([newCard, ...cards]);
+      closeAllPopups();
     });
-    closeAllPopups();
   }
 
   return (
