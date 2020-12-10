@@ -6,7 +6,12 @@ function PopupWithForm(props) {
       }`}
       onClick={props.onOverlay}
     >
-      <form className="popup__container form" name={props.name} onSubmit={props.onSubmit} noValidate>
+      <form
+        className="popup__container form"
+        name={props.name}
+        onSubmit={props.onSubmit}
+        noValidate
+      >
         <button
           type="button"
           className="popup__close-icon"
@@ -14,7 +19,12 @@ function PopupWithForm(props) {
         ></button>
         <h3 className="popup__title">{props.title}</h3>
         {props.children}
-        <button type="submit" className={`popup__submit-button ${props.isValid ? '' : `popup__submit-button_disabled`}`}>
+        <button
+          type="submit"
+          className={`popup__submit-button ${
+            props.isValid ? "" : `popup__submit-button_disabled`
+          }`}
+        >
           {props.buttonText}
         </button>
       </form>
