@@ -47,7 +47,7 @@ function EditProfilePopup(props) {
       setIsFormValid(false);
     }
   }, [name.isValid, description.isValid]);
-  // console.log(props.buttonText);
+
   return (
     <PopupWithForm
       name="editProfile"

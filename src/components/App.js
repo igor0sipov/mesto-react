@@ -8,8 +8,11 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import DeleteConfirmPopup from "./DeleteConfirmPopup";
 
 function App() {
+  //============================================constants================================================
+
   const saveText = "Сохранить";
   const savingText = "Сохранение...";
   const yesText = "Да";
@@ -25,47 +28,22 @@ function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(
     false
   );
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isImagePopupOpened, setImagePopupOpened] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
+    false
+  );
+  const [isImagePopupOpened, setIsImagePopupOpened] = React.useState(false);
+  const [isDeletePopupOpened, setIsDeletePopupOpened] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
   const [buttonText, setButtonText] = React.useState({
     addPlace: saveText,
     editProfile: saveText,
     editAvatar: saveText,
+    confirmDelete: yesText,
   });
+  const [deleteCard, setDeleteCard] = React.useState({});
 
-  function handleEditProfileClick() {
-    setEditProfilePopupOpen(true);
-  }
-
-  function handleAddPlaceClick() {
-    setAddPlacePopupOpen(true);
-  }
-
-  function handleEditAvatarClick() {
-    setEditAvatarPopupOpen(true);
-  }
-
-  function handleCardClick(card) {
-    setSelectedCard(card);
-    setImagePopupOpened(true);
-  }
-
-  function closeAllPopups() {
-    setEditAvatarPopupOpen(false);
-    setEditProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
-    setImagePopupOpened(false);
-  }
-
-  function handleOverlayClick(e) {
-    if(e.target !== e.currentTarget) {
-      return
-    }
-    closeAllPopups();
-  }
-
+  //===========================================profile========================================
   function handleUpdateUser({ name, about }) {
     setButtonText({ ...buttonText, editProfile: savingText });
     api.editProfile({ name, about }).then((newProfileInfo) => {
@@ -84,6 +62,53 @@ function App() {
     });
   }
 
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true);
+  }
+
+  function handleEditProfileClick() {
+    setEditProfilePopupOpen(true);
+  }
+
+  //===========================================popups========================================
+  function closeAllPopups() {
+    setIsEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsImagePopupOpened(false);
+    setIsDeletePopupOpened(false);
+  }
+
+  function escClosing(e) {
+    if (e.keyCode === 27) {
+      closeAllPopups();
+    }
+  }
+
+  React.useEffect(() => {
+    document.addEventListener("keydown", escClosing);
+    return () => {
+      document.removeEventListener("keydown", escClosing);
+    };
+  }, []);
+
+  function handleOverlayClick(e) {
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+    closeAllPopups();
+  }
+
+  //===========================================cards========================================
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true);
+  }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+    setIsImagePopupOpened(true);
+  }
+
   const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
     api.getCards().then((cards) => {
@@ -98,7 +123,13 @@ function App() {
     });
   }
 
-  function handleCardDelete(card) {
+  function handleDeleteButtonClick(card) {
+    setIsDeletePopupOpened(true);
+    setDeleteCard(card);
+  }
+
+  function handleDelteCard(card) {
+    setButtonText({ ...buttonText, confirmDelete: savingText });
     api.deleteCard(card._id).then((result) => {
       if (result.ok) {
         const newCards = cards.filter((c) => c._id !== card._id);
@@ -106,14 +137,16 @@ function App() {
       } else {
         console.log("Ошибка: ", result.status);
       }
+      setButtonText({ ...buttonText, confirmDelete: yesText });
+      closeAllPopups();
     });
   }
 
   function handleAddCard({ name, link }) {
-    setButtonText({...buttonText, addPlace: savingText})
+    setButtonText({ ...buttonText, addPlace: savingText });
     api.addCard({ name, link }).then((newCard) => {
       setCards([newCard, ...cards]);
-      setButtonText({...buttonText, addPlace: saveText})
+      setButtonText({ ...buttonText, addPlace: saveText });
       closeAllPopups();
     });
   }
@@ -129,7 +162,7 @@ function App() {
           onCardClick={handleCardClick}
           cards={cards}
           onLikeClick={handleCardLike}
-          onDeleteClick={handleCardDelete}
+          onDeleteClick={handleDeleteButtonClick}
         />
         <Footer />
 
@@ -139,6 +172,7 @@ function App() {
           onUpdateUser={handleUpdateUser}
           buttonText={buttonText.editProfile}
           onOverlay={handleOverlayClick}
+          escClosing={escClosing}
         />
 
         <AddPlacePopup
@@ -155,6 +189,14 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
           buttonText={buttonText.editAvatar}
           onOverlay={handleOverlayClick}
+        />
+        <DeleteConfirmPopup
+          isOpened={isDeletePopupOpened}
+          onClose={closeAllPopups}
+          buttonText={buttonText.confirmDelete}
+          onOverlay={handleOverlayClick}
+          onSubmit={handleDelteCard}
+          deleteCard={deleteCard}
         />
 
         <ImagePopup

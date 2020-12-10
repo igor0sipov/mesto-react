@@ -8,7 +8,7 @@ function Card(props) {
   }
 
   function handleDeleteClick() {
-    props.onCardDelete(props.card);
+    props.onDeleteClick(props.card);
   }
 
   function handleClick() {
