@@ -116,7 +116,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-
+        
         <AddPlacePopup
           isOpened={isAddPlacePopupOpen}
           onClose={closeAllPopups}
