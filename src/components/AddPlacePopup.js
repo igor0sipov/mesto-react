@@ -47,7 +47,7 @@ function AddPlacePopup(props) {
       title="Новое место"
       isOpened={props.isOpened}
       onClose={props.onClose}
-      buttonText="Сохранить"
+      buttonText={props.buttonText}
       onSubmit={handleSubmit}
       isValid={isFormValid}
     >

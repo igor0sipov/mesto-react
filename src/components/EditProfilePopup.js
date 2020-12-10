@@ -47,23 +47,14 @@ function EditProfilePopup(props) {
       setIsFormValid(false);
     }
   }, [name.isValid, description.isValid]);
-
-  // React.useEffect(() => {
-  //   if (!props.isOpened) {
-  //     setName({ value: "" });
-  //     setDescription({ value: user. });
-  //   }
-  // }, [props.isOpened]);
-
-  console.log(name, description);
-
+  // console.log(props.buttonText);
   return (
     <PopupWithForm
       name="editProfile"
       title="Редактировать профиль"
       isOpened={props.isOpened}
       onClose={props.onClose}
-      buttonText="Сохранить"
+      buttonText={props.buttonText}
       onSubmit={handleSubmit}
       isValid={isFormValid}
     >

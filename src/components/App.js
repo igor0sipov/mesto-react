@@ -10,6 +10,10 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
+  const saveText = "Сохранить";
+  const savingText = "Сохранение...";
+  const yesText = "Да";
+
   React.useEffect(() => {
     api.getUserInfo().then((userInfo) => setCurrentUser(userInfo));
   }, []);
@@ -25,6 +29,11 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isImagePopupOpened, setImagePopupOpened] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [buttonText, setButtonText] = React.useState({
+    addPlace: saveText,
+    editProfile: saveText,
+    editAvatar: saveText,
+  });
 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -51,17 +60,21 @@ function App() {
   }
 
   function handleUpdateUser({ name, about }) {
-    api
-      .editProfile({ name, about })
-      .then((newProfileInfo) => setCurrentUser(newProfileInfo));
-    closeAllPopups();
+    setButtonText({ ...buttonText, editProfile: savingText });
+    api.editProfile({ name, about }).then((newProfileInfo) => {
+      setCurrentUser(newProfileInfo);
+      setButtonText({ ...buttonText, editProfile: saveText });
+      closeAllPopups();
+    });
   }
 
   function handleUpdateAvatar(avatar) {
-    api
-      .updateAvatar(avatar)
-      .then((newProfileInfo) => setCurrentUser(newProfileInfo));
-    closeAllPopups();
+    setButtonText({ ...buttonText, editAvatar: savingText });
+    api.updateAvatar(avatar).then((newProfileInfo) => {
+      setCurrentUser(newProfileInfo);
+      setButtonText({ ...buttonText, editAvatar: saveText });
+      closeAllPopups();
+    });
   }
 
   const [cards, setCards] = React.useState([]);
@@ -90,8 +103,10 @@ function App() {
   }
 
   function handleAddCard({ name, link }) {
+    setButtonText({...buttonText, addPlace: savingText})
     api.addCard({ name, link }).then((newCard) => {
       setCards([newCard, ...cards]);
+      setButtonText({...buttonText, addPlace: saveText})
       closeAllPopups();
     });
   }
@@ -115,18 +130,21 @@ function App() {
           isOpened={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          buttonText={buttonText.editProfile}
         />
-        
+
         <AddPlacePopup
           isOpened={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onSubmit={handleAddCard}
+          buttonText={buttonText.addPlace}
         />
 
         <EditAvatarPopup
           isOpened={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          buttonText={buttonText.editAvatar}
         />
 
         <ImagePopup
