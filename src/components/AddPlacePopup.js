@@ -41,9 +41,6 @@ function AddPlacePopup(props) {
     }
   }, [props.isOpened]);
 
-  console.log(name, link);
-  console.log(isFormValid);
-
   return (
     <PopupWithForm
       name="addPlace"
