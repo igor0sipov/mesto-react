@@ -113,14 +113,6 @@ class Api {
       });
   }
 
-  changeLikeCardStatus(id, isLiked) {
-    if (isLiked) {
-      return this.removeLike(id);
-    } else {
-      return this.like(id);
-    }
-  }
-
   updateAvatar(avatar) {
     return fetch(this._userProfileUrl + "avatar/", {
       method: "PATCH",

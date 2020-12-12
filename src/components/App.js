@@ -46,31 +46,37 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()]).then(
-      ([userInfo, cards]) => {
+    Promise.all([api.getUserInfo(), api.getCards()])
+      .then(([userInfo, cards]) => {
         setCurrentUser(userInfo);
         setCards(cards);
-      }
-    ).catch(handleError)
+      })
+      .catch(handleError);
   }, []);
 
   //===========================================profile========================================
   function handleUpdateUser({ name, about }) {
     setButtonText({ ...buttonText, editProfile: savingText });
-    api.editProfile({ name, about }).then((newProfileInfo) => {
-      setCurrentUser(newProfileInfo);
-      setButtonText({ ...buttonText, editProfile: saveText });
-      closeAllPopups();
-    }).catch(handleError);
+    api
+      .editProfile({ name, about })
+      .then((newProfileInfo) => {
+        setCurrentUser(newProfileInfo);
+        setButtonText({ ...buttonText, editProfile: saveText });
+        closeAllPopups();
+      })
+      .catch(handleError);
   }
 
   function handleUpdateAvatar(avatar) {
     setButtonText({ ...buttonText, editAvatar: savingText });
-    api.updateAvatar(avatar).then((newProfileInfo) => {
-      setCurrentUser(newProfileInfo);
-      setButtonText({ ...buttonText, editAvatar: saveText });
-      closeAllPopups();
-    }).catch(handleError);
+    api
+      .updateAvatar(avatar)
+      .then((newProfileInfo) => {
+        setCurrentUser(newProfileInfo);
+        setButtonText({ ...buttonText, editAvatar: saveText });
+        closeAllPopups();
+      })
+      .catch(handleError);
   }
 
   function handleEditAvatarClick() {
@@ -121,10 +127,16 @@ function App() {
   }
 
   function handleCardLike(card, isLiked) {
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+    function getNewCards(newCard) {
       const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
       setCards(newCards);
-    }).catch(handleError);
+    }
+
+    if (isLiked) {
+      api.removeLike(card._id).then(getNewCards).catch(handleError);
+    } else {
+      api.like(card._id).then(getNewCards).catch(handleError);
+    }
   }
 
   function handleDeleteButtonClick(card) {
@@ -134,25 +146,31 @@ function App() {
 
   function handleDelteCard(card) {
     setButtonText({ ...buttonText, confirmDelete: deletionText });
-    api.deleteCard(card._id).then((result) => {
-      if (result.ok) {
-        const newCards = cards.filter((c) => c._id !== card._id);
-        setCards(newCards);
-      } else {
-        console.log("Ошибка: ", result.status);
-      }
-      setButtonText({ ...buttonText, confirmDelete: yesText });
-      closeAllPopups();
-    }).catch(handleError);
+    api
+      .deleteCard(card._id)
+      .then((result) => {
+        if (result.ok) {
+          const newCards = cards.filter((c) => c._id !== card._id);
+          setCards(newCards);
+        } else {
+          console.log("Ошибка: ", result.status);
+        }
+        setButtonText({ ...buttonText, confirmDelete: yesText });
+        closeAllPopups();
+      })
+      .catch(handleError);
   }
 
   function handleAddCard({ name, link }) {
     setButtonText({ ...buttonText, addPlace: savingText });
-    api.addCard({ name, link }).then((newCard) => {
-      setCards([newCard, ...cards]);
-      setButtonText({ ...buttonText, addPlace: saveText });
-      closeAllPopups();
-    }).catch(handleError);
+    api
+      .addCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        setButtonText({ ...buttonText, addPlace: saveText });
+        closeAllPopups();
+      })
+      .catch(handleError);
   }
 
   return (
