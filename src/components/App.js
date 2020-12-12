@@ -13,6 +13,10 @@ import DeleteConfirmPopup from "./DeleteConfirmPopup";
 function App() {
   //============================================constants================================================
 
+  function handleError(error) {
+    console.log(error);
+  }
+
   const saveText = "Сохранить";
   const savingText = "Сохранение...";
   const yesText = "Да";
@@ -47,7 +51,7 @@ function App() {
         setCurrentUser(userInfo);
         setCards(cards);
       }
-    );
+    ).catch(handleError)
   }, []);
 
   //===========================================profile========================================
@@ -57,7 +61,7 @@ function App() {
       setCurrentUser(newProfileInfo);
       setButtonText({ ...buttonText, editProfile: saveText });
       closeAllPopups();
-    });
+    }).catch(handleError);
   }
 
   function handleUpdateAvatar(avatar) {
@@ -66,7 +70,7 @@ function App() {
       setCurrentUser(newProfileInfo);
       setButtonText({ ...buttonText, editAvatar: saveText });
       closeAllPopups();
-    });
+    }).catch(handleError);
   }
 
   function handleEditAvatarClick() {
@@ -120,7 +124,7 @@ function App() {
     api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       const newCards = cards.map((c) => (c._id === card._id ? newCard : c));
       setCards(newCards);
-    });
+    }).catch(handleError);
   }
 
   function handleDeleteButtonClick(card) {
@@ -139,7 +143,7 @@ function App() {
       }
       setButtonText({ ...buttonText, confirmDelete: yesText });
       closeAllPopups();
-    });
+    }).catch(handleError);
   }
 
   function handleAddCard({ name, link }) {
@@ -148,7 +152,7 @@ function App() {
       setCards([newCard, ...cards]);
       setButtonText({ ...buttonText, addPlace: saveText });
       closeAllPopups();
-    });
+    }).catch(handleError);
   }
 
   return (

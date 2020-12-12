@@ -7,13 +7,6 @@ class Api {
     this._cardsUrl = config.cardsUrl;
   }
 
-  _handleOriginalJsonResponse(result) {
-    if (!result.ok) {
-      return Promise.reject(`Ошибка: ${result.status}`);
-    }
-    return result.json();
-  }
-
   _handleOriginalResponse(result) {
     if (!result.ok) {
       return Promise.reject(`Ошибка: ${result.status}`);
@@ -27,12 +20,9 @@ class Api {
         authorization: this._token,
       },
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 
@@ -42,12 +32,9 @@ class Api {
         authorization: this._token,
       },
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 
@@ -63,12 +50,9 @@ class Api {
         about: about,
       }),
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 
@@ -84,12 +68,9 @@ class Api {
         link: link,
       }),
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 
@@ -103,9 +84,6 @@ class Api {
       .then(this._handleOriginalResponse)
       .then((data) => {
         return data;
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 
@@ -116,12 +94,9 @@ class Api {
         authorization: this._token,
       },
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 
@@ -132,12 +107,9 @@ class Api {
         authorization: this._token,
       },
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 
@@ -160,12 +132,9 @@ class Api {
         avatar: avatar,
       }),
     })
-      .then(this._handleOriginalJsonResponse)
+      .then(this._handleOriginalResponse)
       .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
+        return data.json();
       });
   }
 }
