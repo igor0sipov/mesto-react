@@ -1,4 +1,5 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -9,6 +10,8 @@ import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
+import Login from "./Login";
+import Register from "./Register";
 
 function App() {
   //============================================constants================================================
@@ -177,56 +180,63 @@ function App() {
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
         <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          cards={cards}
-          onLikeClick={handleCardLike}
-          onDeleteClick={handleDeleteButtonClick}
-        />
-        <Footer />
+        <Route path="/sign-up">
+          <Register />
+        </Route>
+        <Route path="/sign-in">
+          <Login />
+        </Route>
+        <Route exact path="/">
+          <Main
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onLikeClick={handleCardLike}
+            onDeleteClick={handleDeleteButtonClick}
+          />
+          <EditProfilePopup
+            isOpened={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+            buttonText={buttonText.editProfile}
+            onOverlay={handleOverlayClick}
+            escClosing={escClosing}
+          />
 
-        <EditProfilePopup
-          isOpened={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-          buttonText={buttonText.editProfile}
-          onOverlay={handleOverlayClick}
-          escClosing={escClosing}
-        />
+          <AddPlacePopup
+            isOpened={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onSubmit={handleAddCard}
+            buttonText={buttonText.addPlace}
+            onOverlay={handleOverlayClick}
+          />
 
-        <AddPlacePopup
-          isOpened={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onSubmit={handleAddCard}
-          buttonText={buttonText.addPlace}
-          onOverlay={handleOverlayClick}
-        />
+          <EditAvatarPopup
+            isOpened={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+            buttonText={buttonText.editAvatar}
+            onOverlay={handleOverlayClick}
+          />
+          <DeleteConfirmPopup
+            isOpened={isDeletePopupOpened}
+            onClose={closeAllPopups}
+            buttonText={buttonText.confirmDelete}
+            onOverlay={handleOverlayClick}
+            onSubmit={handleDelteCard}
+            deleteCard={deleteCard}
+          />
 
-        <EditAvatarPopup
-          isOpened={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-          buttonText={buttonText.editAvatar}
-          onOverlay={handleOverlayClick}
-        />
-        <DeleteConfirmPopup
-          isOpened={isDeletePopupOpened}
-          onClose={closeAllPopups}
-          buttonText={buttonText.confirmDelete}
-          onOverlay={handleOverlayClick}
-          onSubmit={handleDelteCard}
-          deleteCard={deleteCard}
-        />
-
-        <ImagePopup
-          card={selectedCard}
-          isOpened={isImagePopupOpened}
-          onClose={closeAllPopups}
-          onOverlay={handleOverlayClick}
-        />
+          <ImagePopup
+            card={selectedCard}
+            isOpened={isImagePopupOpened}
+            onClose={closeAllPopups}
+            onOverlay={handleOverlayClick}
+          />
+          <Footer />
+        </Route>
       </CurrentUserContext.Provider>
     </div>
   );
