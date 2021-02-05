@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -47,6 +47,8 @@ function App() {
   });
   const [deleteCard, setDeleteCard] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const { url, path } = useRouteMatch();
 
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
@@ -175,11 +177,10 @@ function App() {
       })
       .catch(handleError);
   }
-
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header />
+        <Header loggedIn={loggedIn} url={url} path={path}/>
         <Route path="/sign-up">
           <Register />
         </Route>
