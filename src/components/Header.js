@@ -5,7 +5,6 @@ function Header(props) {
   return (
     <header className="header header_spaced">
       <Link className="header__logo" to="/">
-        {/* <img src={mestoLogo} alt="Лого сайта"  /> */}
       </Link>
       <div className="header__user-menu">
         {props.loggedIn ? (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, useRouteMatch } from "react-router-dom";
+import { Redirect, Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -12,6 +12,7 @@ import AddPlacePopup from "./AddPlacePopup";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
 import Login from "./Login";
 import Register from "./Register";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   //============================================constants================================================
@@ -180,14 +181,18 @@ function App() {
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header loggedIn={loggedIn} url={url} path={path}/>
+        <Header loggedIn={loggedIn} url={url} path={path} />
+        
+        <Route exact path="/">
+          {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
+        </Route>
         <Route path="/sign-up">
           <Register />
         </Route>
         <Route path="/sign-in">
           <Login />
         </Route>
-        <Route exact path="/">
+        <Route path="/main">
           <Main
             onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
