@@ -1,14 +1,22 @@
 import { Link, useLocation } from "react-router-dom";
 
 function Header(props) {
+  function handleLogout() {
+    props.setLoggedIn(false);
+  }
+
   const currentLocation = useLocation().pathname;
   return (
     <header className="header header_spaced">
-      <Link className="header__logo" to="/">
-      </Link>
+      <Link className="header__logo" to="/"></Link>
       <div className="header__user-menu">
         {props.loggedIn ? (
-          <div></div>
+          <>
+            <p className="header__email">{props.currentEmail}</p>
+            <button className="header__button" onClick={handleLogout}>
+              Выход
+            </button>
+          </>
         ) : currentLocation === "/sign-up" ? (
           <Link className="header__link" to="/sign-in">
             Вход

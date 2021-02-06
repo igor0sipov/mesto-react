@@ -22,15 +22,7 @@ function Main(props) {
   const yesText = "Да";
   const deletionText = "Удаление...";
 
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(
-    false
-  );
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
-    false
-  );
-  const [isImagePopupOpened, setIsImagePopupOpened] = React.useState(false);
-  const [isDeletePopupOpened, setIsDeletePopupOpened] = React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState({});
   const [buttonText, setButtonText] = React.useState({
     addPlace: saveText,
@@ -58,7 +50,7 @@ function Main(props) {
       .then((newProfileInfo) => {
         props.setCurrentUser(newProfileInfo);
         setButtonText({ ...buttonText, editProfile: saveText });
-        closeAllPopups();
+        props.closeAllPopups();
       })
       .catch(handleError);
   }
@@ -70,56 +62,41 @@ function Main(props) {
       .then((newProfileInfo) => {
         props.setCurrentUser(newProfileInfo);
         setButtonText({ ...buttonText, editAvatar: saveText });
-        closeAllPopups();
+        props.closeAllPopups();
       })
       .catch(handleError);
   }
 
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(true);
+    props.setIsEditAvatarPopupOpened(true);
   }
 
   function handleEditProfileClick() {
-    setEditProfilePopupOpen(true);
+    props.setEditProfilePopupOpened(true);
   }
 
   //===========================================popups========================================
-  function closeAllPopups() {
-    setIsEditAvatarPopupOpen(false);
-    setEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsImagePopupOpened(false);
-    setIsDeletePopupOpened(false);
-  }
 
-  function escClosing(e) {
-    if (e.keyCode === 27) {
-      closeAllPopups();
-    }
-  }
+
+
 
   React.useEffect(() => {
-    document.addEventListener("keydown", escClosing);
+    document.addEventListener("keydown", props.escClosing);
     return () => {
-      document.removeEventListener("keydown", escClosing);
+      document.removeEventListener("keydown", props.escClosing);
     };
   }, []);
 
-  function handleOverlayClick(e) {
-    if (e.target !== e.currentTarget) {
-      return;
-    }
-    closeAllPopups();
-  }
+
 
   //===========================================cards========================================
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true);
+    props.setIsAddPlacePopupOpened(true);
   }
 
   function handleCardClick(card) {
     setSelectedCard(card);
-    setIsImagePopupOpened(true);
+    props.setIsImagePopupOpened(true);
   }
 
   function handleCardLike(card, isLiked) {
@@ -136,7 +113,7 @@ function Main(props) {
   }
 
   function handleDeleteButtonClick(card) {
-    setIsDeletePopupOpened(true);
+    props.setIsDeletePopupOpened(true);
     setDeleteCard(card);
   }
 
@@ -152,7 +129,7 @@ function Main(props) {
           console.log("Ошибка: ", result.status);
         }
         setButtonText({ ...buttonText, confirmDelete: yesText });
-        closeAllPopups();
+        props.closeAllPopups();
       })
       .catch(handleError);
   }
@@ -164,7 +141,7 @@ function Main(props) {
       .then((newCard) => {
         setCards([newCard, ...cards]);
         setButtonText({ ...buttonText, addPlace: saveText });
-        closeAllPopups();
+        props.closeAllPopups();
       })
       .catch(handleError);
   }
@@ -222,43 +199,42 @@ function Main(props) {
       </main>
 
       <EditProfilePopup
-        isOpened={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
+        isOpened={props.isEditProfilePopupOpened}
+        onClose={props.closeAllPopups}
         onUpdateUser={handleUpdateUser}
         buttonText={buttonText.editProfile}
-        onOverlay={handleOverlayClick}
-        escClosing={escClosing}
+        onOverlay={props.handleOverlayClick}
       />
 
       <AddPlacePopup
-        isOpened={isAddPlacePopupOpen}
-        onClose={closeAllPopups}
+        isOpened={props.isAddPlacePopupOpened}
+        onClose={props.closeAllPopups}
         onSubmit={handleAddCard}
         buttonText={buttonText.addPlace}
-        onOverlay={handleOverlayClick}
+        onOverlay={props.handleOverlayClick}
       />
 
       <EditAvatarPopup
-        isOpened={isEditAvatarPopupOpen}
-        onClose={closeAllPopups}
+        isOpened={props.isEditAvatarPopupOpened}
+        onClose={props.closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
         buttonText={buttonText.editAvatar}
-        onOverlay={handleOverlayClick}
+        onOverlay={props.handleOverlayClick}
       />
       <DeleteConfirmPopup
-        isOpened={isDeletePopupOpened}
-        onClose={closeAllPopups}
+        isOpened={props.isDeletePopupOpened}
+        onClose={props.closeAllPopups}
         buttonText={buttonText.confirmDelete}
-        onOverlay={handleOverlayClick}
+        onOverlay={props.handleOverlayClick}
         onSubmit={handleDelteCard}
         deleteCard={deleteCard}
       />
 
       <ImagePopup
         card={selectedCard}
-        isOpened={isImagePopupOpened}
-        onClose={closeAllPopups}
-        onOverlay={handleOverlayClick}
+        isOpened={props.isImagePopupOpened}
+        onClose={props.closeAllPopups}
+        onOverlay={props.handleOverlayClick}
       />
     </>
   );

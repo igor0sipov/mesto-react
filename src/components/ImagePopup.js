@@ -4,7 +4,7 @@ function ImagePopup(props) {
       className={`popup fullsize-picture ${props.isOpened && `popup_opened`}`}
       onClick={props.onOverlay}
     >
-      <figure className="popup__container">
+      <figure className="popup__content">
         <button
           type="button"
           className="popup__close-icon"

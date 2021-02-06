@@ -11,4 +11,5 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility .3s ease-in, opacity .3s ease-in;
+  z-index: 9999;
 }

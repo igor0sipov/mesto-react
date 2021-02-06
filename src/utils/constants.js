@@ -7,7 +7,6 @@ export const apiConfig = {
 };
 
 export const validationSelectors = {
-  form: ".form",
   input: ".popup__input",
   submitButton: ".popup__submit-button",
   inactiveButton: "popup__submit-button_disabled",
@@ -29,7 +28,6 @@ export const cardSelectors = {
 
 export const popupSelectors = {
   openedPopup: "popup_opened",
-  form: ".form",
   closeButton: ".popup__close-icon",
   title: "popup__title",
   picture: ".popup__picture",
