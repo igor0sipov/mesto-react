@@ -48,7 +48,7 @@ function EditAvatarPopup(props) {
         ref={avatarInputRef}
         type="url"
         className="popup__input"
-        id="form-avatar"
+        id="container-avatar"
         name="avatar"
         placeholder="Ссылка на аватар"
         required
@@ -58,7 +58,7 @@ function EditAvatarPopup(props) {
         onChange={handleChange}
       />
       <span
-        className={`popup__input-error form-avatar-error ${
+        className={`popup__input-error container-avatar-error ${
           avatar.isValid ? `` : `popup__input-error_visible`
         }`}
       >

@@ -62,7 +62,7 @@ function EditProfilePopup(props) {
       <input
         type="text"
         className="popup__input"
-        id="form-name"
+        id="container-name"
         name="name"
         placeholder="Имя"
         required
@@ -72,7 +72,7 @@ function EditProfilePopup(props) {
         onChange={handleNameChange}
       />
       <span
-        className={`popup__input-error form-name-error ${
+        className={`popup__input-error container-name-error ${
           name.isValid ? `` : `popup__input-error_visible`
         }`}
       >
@@ -81,7 +81,7 @@ function EditProfilePopup(props) {
       <input
         type="text"
         className="popup__input"
-        id="form-bio"
+        id="container-bio"
         name="bio"
         placeholder="О себе"
         required
@@ -91,7 +91,7 @@ function EditProfilePopup(props) {
         onChange={handleDescriptionChange}
       />
       <span
-        className={`popup__input-error form-name-error ${
+        className={`popup__input-error container-name-error ${
           description.isValid ? `` : `popup__input-error_visible`
         }`}
       >

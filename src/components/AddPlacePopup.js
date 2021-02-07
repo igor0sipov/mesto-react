@@ -55,7 +55,7 @@ function AddPlacePopup(props) {
       <input
         type="text"
         className="popup__input"
-        id="form-title"
+        id="container-title"
         name="title"
         placeholder="Название"
         minLength="2"
@@ -65,7 +65,7 @@ function AddPlacePopup(props) {
         onChange={handleNameChange}
       />
       <span
-        className={`popup__input-error form-title-error ${
+        className={`popup__input-error container-title-error ${
           name.isValid ? `` : `popup__input-error_visible`
         }`}
       >
@@ -74,7 +74,7 @@ function AddPlacePopup(props) {
       <input
         type="url"
         className="popup__input"
-        id="form-url"
+        id="container-url"
         name="url"
         placeholder="Ссылка на картинку"
         required
@@ -82,7 +82,7 @@ function AddPlacePopup(props) {
         onChange={handleLinkChange}
       />
       <span
-        className={`popup__input-error form-url-error ${
+        className={`popup__input-error container-url-error ${
           link.isValid ? `` : `popup__input-error_visible`
         }`}
       >
