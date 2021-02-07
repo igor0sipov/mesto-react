@@ -7,7 +7,7 @@ function PopupWithForm(props) {
       onClick={props.onOverlay}
     >
       <form
-        className="popup__container form"
+        className="popup__content container"
         name={props.name}
         onSubmit={props.onSubmit}
         noValidate

@@ -1,11 +1,28 @@
-import mestoLogo from "../images/logo_white.svg";
+import { Link, useLocation } from "react-router-dom";
 
-function Header() {
+function Header(props) {
+  const currentLocation = useLocation().pathname;
   return (
     <header className="header header_spaced">
-      <a href="#">
-        <img src={mestoLogo} alt="Лого сайта" className="header__logo" />
-      </a>
+      <Link className="header__logo" to="/"></Link>
+      <div className="header__user-menu">
+        {props.loggedIn ? (
+          <>
+            <p className="header__email">{props.currentEmail}</p>
+            <button className="header__button" onClick={props.handleSignOut}>
+              Выход
+            </button>
+          </>
+        ) : currentLocation === "/sign-up" ? (
+          <Link className="header__link" to="/sign-in">
+            Вход
+          </Link>
+        ) : (
+          <Link className="header__link" to="/sign-up">
+            Регистрация
+          </Link>
+        )}
+      </div>
     </header>
   );
 }
