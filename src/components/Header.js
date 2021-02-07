@@ -1,10 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
 function Header(props) {
-  function handleLogout() {
-    props.setLoggedIn(false);
-  }
-
   const currentLocation = useLocation().pathname;
   return (
     <header className="header header_spaced">
@@ -13,7 +9,7 @@ function Header(props) {
         {props.loggedIn ? (
           <>
             <p className="header__email">{props.currentEmail}</p>
-            <button className="header__button" onClick={handleLogout}>
+            <button className="header__button" onClick={props.handleSignOut}>
               Выход
             </button>
           </>

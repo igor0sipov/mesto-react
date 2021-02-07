@@ -2,7 +2,7 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Card from "./Card";
 import editAvatarIconPath from "../images/edit-avatar-icon.svg";
-
+import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
@@ -21,7 +21,6 @@ function Main(props) {
   const savingText = "Сохранение...";
   const yesText = "Да";
   const deletionText = "Удаление...";
-
 
   const [selectedCard, setSelectedCard] = React.useState({});
   const [buttonText, setButtonText] = React.useState({
@@ -77,17 +76,12 @@ function Main(props) {
 
   //===========================================popups========================================
 
-
-
-
   React.useEffect(() => {
     document.addEventListener("keydown", props.escClosing);
     return () => {
       document.removeEventListener("keydown", props.escClosing);
     };
   }, []);
-
-
 
   //===========================================cards========================================
   function handleAddPlaceClick() {
@@ -197,7 +191,7 @@ function Main(props) {
           })}
         </ul>
       </main>
-
+      <Footer />
       <EditProfilePopup
         isOpened={props.isEditProfilePopupOpened}
         onClose={props.closeAllPopups}

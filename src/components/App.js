@@ -2,7 +2,6 @@ import React from "react";
 import { Redirect, Route, useRouteMatch } from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
-import Footer from "./Footer";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import Login from "./Login";
 import Register from "./Register";
@@ -11,6 +10,15 @@ import InfoTooltip from "./InfoTooltip";
 import auth from "../utils/auth";
 
 function App() {
+  React.useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      auth.getUser(token).then((user) => {
+        setCurrentEmail(user.data.email);
+        setLoggedIn(true);
+      });
+    }
+  }, []);
   //============================================constants================================================
   const [currentUser, setCurrentUser] = React.useState({
     name: "User Name",
@@ -34,7 +42,6 @@ function App() {
   );
   const [isImagePopupOpened, setIsImagePopupOpened] = React.useState(false);
   const [isDeletePopupOpened, setIsDeletePopupOpened] = React.useState(false);
-  const [currentJwt, setCurrentJwt] = React.useState("");
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpened(false);
@@ -60,7 +67,6 @@ function App() {
 
   function handleSignIn({ email, password }) {
     return auth.signIn({ email, password }).then((data) => {
-      setCurrentJwt(data.token);
       return data;
     });
   }
@@ -73,16 +79,20 @@ function App() {
     return auth.signUp({ email, password }).then((data) => data);
   }
 
-  // React.useEffect(() => {
-  //   auth.getUser(currentJwt).then((data) => console.log(data));
-  // }, [loggedIn]);
+  function handleSignOut() {
+    setLoggedIn(false);
+    localStorage.removeItem('token');
+  }
+
   return (
     <div className="page">
+      {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
       <CurrentUserContext.Provider value={currentUser}>
         <Header
           loggedIn={loggedIn}
           setLoggedIn={setLoggedIn}
           currentEmail={currentEmail}
+          handleSignOut={handleSignOut}
         />
         <InfoTooltip
           isOpened={isInfoPopupOpened}
@@ -90,9 +100,6 @@ function App() {
           onOverlay={handleOverlayClick}
           escClosing={escClosing}
         />
-        <Route exact path="/">
-          {loggedIn ? <Redirect to="/main" /> : <Redirect to="/sign-in" />}
-        </Route>
         <Route path="/sign-up">
           <Register
             onSubmit={handleSignUp}
@@ -108,7 +115,7 @@ function App() {
             setLoggedIn={setLoggedIn}
           />
         </Route>
-        <Route path="/main">
+        <Route exact path="/">
           <ProtectedRoute
             component={Main}
             setCurrentUser={setCurrentUser}
@@ -127,7 +134,6 @@ function App() {
             handleOverlayClick={handleOverlayClick}
             escClosing={escClosing}
           />
-          <Footer />
         </Route>
       </CurrentUserContext.Provider>
     </div>

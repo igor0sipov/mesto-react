@@ -10,7 +10,6 @@
   color: white;
   transition: opacity .3s;
   box-sizing: border-box;
-  margin-top: 6px;
 }
 
 .header__link:hover {

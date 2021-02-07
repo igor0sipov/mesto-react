@@ -4,3 +4,9 @@
   align-items: center;
   margin-top: 6px;
 }
+
+@media screen and (max-width: 879px) {
+  .header__user-menu {
+    margin-right: 30px;
+  }
+}

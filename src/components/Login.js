@@ -2,14 +2,6 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 
 function Login(props) {
-  // React.useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     const token = localStorage.getItem("token");
-  //     props.getUser(token).then(() => {
-  //       props.history.push("/main");
-  //     });
-  //   }
-  // }, []);
   const [email, setEmail] = React.useState({ value: "" });
   const [password, setPassword] = React.useState({ value: "" });
   const [isFormValid, setIsFormValid] = React.useState(false);
@@ -26,8 +18,9 @@ function Login(props) {
           })
           .then(() => {
             props.setLoggedIn(true);
-            props.history.push("/main");
+            props.history.push("/");
           });
+        localStorage.setItem("token", data.token);
       })
       .catch((err) => {
         console.log(err);
